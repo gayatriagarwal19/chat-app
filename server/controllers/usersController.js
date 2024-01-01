@@ -6,10 +6,10 @@ module.exports.register = async (req, res, next) => {
     const { username, email, password } = req.body;
     const usernameCheck = await User.findOne({ username });
     if (usernameCheck)
-      return req.json({ msg: "Username already used", status: false });
+      return res.json({ msg: "Username already used", status: false });
     const emailCheck = await User.findOne({ email });
     if (emailCheck)
-      return req.json({
+      return res.json({
         msg: "Account with this email already exists",
         status: false,
       });
@@ -19,6 +19,25 @@ module.exports.register = async (req, res, next) => {
       username,
       password: hashedPassword,
     });
+    delete user.password;
+    return res.json({ status: true, user });
+  } catch (ex) {
+    next(ex);
+  }
+};
+
+module.exports.login = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    if (!user)
+      return res.json({ msg: "Incorrect username or password", status: false });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid)
+      return res.json({
+        msg: "Password incorrect",
+        status: false,
+      });
     delete user.password;
     return res.json({ status: true, user });
   } catch (ex) {
