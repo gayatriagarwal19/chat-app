@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Robot from "../assets/robot.gif";
 
-export default function Welcome(currentUser) {
-  console.log(currentUser.currentUser);
+export default function Welcome({ currentUser }) {
+
+  const [username, setUsername] = useState(null);
+  useEffect(() => {
+    if (currentUser && currentUser.username) {
+      setUsername(currentUser.username);
+    }
+  }, [currentUser]);
+
   return (
     <Container>
       <img src={Robot} alt="Robot" />
-      <h1>
-        Welcome!
-      </h1>
+      {username && <h1>Welcome!{username}</h1>}
       <h3>Please select a chat to start messaging</h3>
     </Container>
   );
