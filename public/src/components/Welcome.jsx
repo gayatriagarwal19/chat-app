@@ -14,7 +14,7 @@ export default function Welcome({ currentUser }) {
   return (
     <Container>
       <img src={Robot} alt="Robot" />
-      {username && <h1>Welcome!{username}</h1>}
+      {username && <h1>Welcome, <span>{username}!</span></h1>}
       <h3>Please select a chat to start messaging</h3>
     </Container>
   );
