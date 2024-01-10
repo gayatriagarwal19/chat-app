@@ -11,6 +11,7 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => res.status(200).json({ message: "hello world" }));
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoute);
 
@@ -47,8 +48,8 @@ io.on("connection", (socket) => {
 
   socket.on("send-msg", (data) => {
     const sendUserSocket = onlineUsers.get(data.to);
-    if(sendUserSocket){
-      socket.to(sendUserSocket).emit("msg-recieve",data.message);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-recieve", data.message);
     }
   });
 });
