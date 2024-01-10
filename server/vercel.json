@@ -1,12 +1,9 @@
 {
-  "routes": [
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
+  "headers": [
     {
       "source": "/(.*)",
-      "destination": "/api",
-      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-      "headers": {
-        "Access-Control-Allow-Origin": "*"
-      }
+      "headers": [{ "key": "Access-Control-Allow-Origin", "value": "*" }]
     }
   ]
 }
